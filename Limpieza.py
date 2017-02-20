@@ -19,7 +19,7 @@ def generar_df(name):
 def generar_archivo(tab,nombre):
     with open("{}.txt".format(nombre),"w") as file:
         file.write("{} {}\n".format(tab.shape[0],tab.shape[1]))    
-    tabla.to_csv(r"{}.txt".format(nombre), header = False, sep=' ', mode='a', index = False)
+    tab.to_csv(r"{}.txt".format(nombre), header = False, sep=' ', mode='a', index = False)
 
 tabla = generar_df("AmesHousing.txt")
 entrenamiento = tabla.sample(frac = 0.8, random_state = 25)

@@ -177,10 +177,11 @@ int main(int argc, const char **argv){
 	learning_rate = strtod(argv[2], NULL);
 	epsilon = strtod(argv[3], NULL);
 	gradient_descent(n_examples, n_features, x, y, learning_rate, epsilon, argv[4]); 
-	/*
+	
 	for (int j = 0; j < n_features; j++) { 
 		cout << mean[j] << " " << std_deviation[j] << endl;
 	}
+	/*
 	for (int i = 0; i < n_examples; i++) {
 		for (int j = 1; j < n_features; j++) {
 			cout << x[i][j];
