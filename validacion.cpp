@@ -18,62 +18,6 @@ void evaluar_hip(int n_examples, int n_features, double** x, double thetas[],
 	}
 }
 
-double * gradient_descent(int n_examples, int n_features, double** x, double y[], 
-						  double learning_rate, double epsilon, const char* out_file) {
-	double new_thetas[n_features];
-	double old_thetas[n_features];
-	double eval[n_examples];
-	double error[n_examples];
-	double f_costo;
-	double sumatoria;
-	double norma2 = epsilon + 1.0;
-	int iter = 1;
-	ofstream o_file;
-	o_file.open(out_file);
-	o_file << "Iteracion" << " " << "FuncionCosto" << endl;
-	for (int k = 0; k < n_features; k++) {
-		new_thetas[k] = 0.1;
-	}
-	while (norma2 >= epsilon) {
-		evaluar_hip(n_examples, n_features, x, new_thetas, eval);
-		for (int i = 0; i < n_features; i++) {
-			old_thetas[i] = new_thetas[i];
-		}
-		for (int j = 0; j < n_examples; j++) {
-			error[j] = eval[j] - y[j];
-		}
-		for (int l = 0; l < n_features; l++) {
-			sumatoria = 0;
-			for (int m = 0; m < n_examples; m++) {
-				sumatoria += error[m] * x[m][l]; 
-			}
-			new_thetas[l] -= (learning_rate/n_examples) * sumatoria; 
-		}
-		if (iter % 100 == 0) {
-			f_costo = 0;
-			for (int n = 0; n < n_features; n++) {
-				f_costo += pow(error[n], 2);
-			}	
-			f_costo /= (2 * n_examples);
-			o_file << iter << " " << f_costo << endl;	
-		}
-		norma2 = 0;
-		for (int b = 0; b < n_features; b++) {
-			old_thetas[b] = new_thetas[b] - old_thetas[b];
-			norma2 += pow(old_thetas[b],2);
-		}
-		norma2 = sqrt(norma2);
-		iter++;
-	}
-	o_file.close();
-	cout << "[";
-	for (int i = 0; i < n_features; i++) {
-			cout << new_thetas[i];
-			cout << ", ";
-	}
-	cout << "]" << endl;
-}
-
 vector<string> split(string str, string delimiter) {
 	vector<string> str_splitted;
 	size_t pos = 0;
@@ -90,15 +34,14 @@ vector<string> split(string str, string delimiter) {
 }
 
 int main(int argc, const char **argv){
+	//cout << "LALALA";
 	ifstream file;
 	string line;
 	vector<string> line_splitted;
 	int n_features;
 	int n_examples;
-	double learning_rate;
-	double epsilon;
-	if (argc != 5) {
-		cout << "Uso: ./" << argv[0] << " dataFile learningRate epsilon outputFile" << endl;
+	if (argc != 2) {
+		cout << "Usage: ./RegresionLineal dataFile learningRate epsilon outputFile" << endl;
 		cout << endl;
 		cout << "	dataFile: Archivo con el conjunto de datos de entrada." << endl;
 		cout << "	learningRate: Flotante que indica la tasa de aprendizaje." << endl;
@@ -107,7 +50,9 @@ int main(int argc, const char **argv){
 		cout << "	outputFile: Archivo con los resultados." << endl;
 		return 0;
 	}
+	//cout << "Abriendo archivo";
 	file.open(argv[1]);
+	//cout << "Archivo abierto";
 	getline(file, line);
 	line_splitted = split(line, " ");
 	n_features = atoi(line_splitted[0].c_str()) - 1;
@@ -147,12 +92,40 @@ int main(int argc, const char **argv){
 	}
 	// Normalizacion de los datos.
 	for (int i = 0; i < n_examples; i++) {
-		for (int j = 1; j < n_features; j++) { 
-			x[i][j] = (x[i][j] - mean[j]) / std_deviation[j];
+		for (int j = 1; j < n_features; j++) {
+			if (std_deviation[j] != 0) { 
+				x[i][j] = (x[i][j] - mean[j]) / std_deviation[j];
+			}
 		}
-		y[i] = (y[i] - mean[0]) / std_deviation[0];
+		if (std_deviation[0] != 0) { 
+			y[i] = (y[i] - mean[0]) / std_deviation[0];
+		}
+		
 	}
-	learning_rate = strtod(argv[2], NULL);
-	epsilon = strtod(argv[3], NULL);
-	gradient_descent(n_examples, n_features, x, y, learning_rate, epsilon, argv[4]); 
+	double eval[n_examples];
+	double thetas[20] = {4.23038e-10, -0.0717859, 0.0673145, 0.0125209, 
+						 0.205262, 0.0580651, 0.10119, 0.189454, 0.230135, 
+						 0.110117, -0.0195277, 0.248916, 0.216456, 0.113272, 
+						 0.0895055, -0.0979455, 0.00305139, 0.000494569, 
+						 0.0196825, -0.0209725};
+	evaluar_hip(n_examples, n_features, x, thetas, eval);
+	double error;
+	double bias = 0;
+	double max_deviation = 0;
+	double mean_abs_deviation = 0;
+	double mean_sqr_error = 0;
+	for (int k = 0; k < n_examples; k++) {
+		error = eval[k] - y[k];
+		bias += error;
+		max_deviation = abs(error) > max_deviation? error : max_deviation;
+		mean_abs_deviation += abs(error);
+		mean_sqr_error += pow(error, 2);  
+	}
+	bias /= n_examples;
+	mean_abs_deviation /= n_examples;
+	mean_sqr_error /= n_examples;
+	cout << "Bias: " << bias << endl;
+	cout << "Maxima Desviacion: " << max_deviation << endl;
+	cout << "Desviacion Media Absoluta: " << mean_abs_deviation << endl;
+	cout << "Error Cuadrado Medio: " << mean_sqr_error << endl;
 }
