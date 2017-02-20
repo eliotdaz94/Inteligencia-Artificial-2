@@ -6,6 +6,14 @@
 #include <math.h> 
 using namespace std;
 
+/*
+	Evalua las instancias en X en la hipotesis presentada en thetas.
+	n_examples = numero de instancias a evaluar
+	n_features = numero de atributos de las instancias
+	x = matriz con las instancias
+	thetas = pesos de la hipotesis de regresion lineal
+	eval = resultado de cada evaluacion
+*/
 void evaluar_hip(int n_examples, int n_features, double** x, double thetas[],
 				 double eval[]) {
 	double result;
@@ -18,6 +26,16 @@ void evaluar_hip(int n_examples, int n_features, double** x, double thetas[],
 	}
 }
 
+/*
+	Efectua descenso de gradiente sobre una matriz de intancias X con output Y
+	n_examples = numero de instancias a evaluar
+	n_features = numero de atributos de las instancias
+	x = matriz con las instancias
+	y = vector de resultados asociados a las instancias en X
+	learning_rate = tasa de aprendizaje del descenso de gradiente
+	epsilon = epsilon para detener el descenso de gradiente en base al cambio de norma
+	out_file = handler al archivo de salida de la iteracion y j(0)
+*/
 double * gradient_descent(int n_examples, int n_features, double** x, double y[], 
 						  double learning_rate, double epsilon, const char* out_file) {
 	double new_thetas[n_features];
@@ -74,6 +92,11 @@ double * gradient_descent(int n_examples, int n_features, double** x, double y[]
 	cout << "]" << endl;
 }
 
+/*
+	Separa un string en base a un delimitador y devuelve un vector con cada palabra por separado.
+	str = string a separar
+	delimiter = delimitador
+*/
 vector<string> split(string str, string delimiter) {
 	vector<string> str_splitted;
 	size_t pos = 0;
@@ -89,6 +112,9 @@ vector<string> split(string str, string delimiter) {
 	return str_splitted;
 }
 
+/*
+	Manejo de la entrada y normalizacion de los datos.
+*/
 int main(int argc, const char **argv){
 	ifstream file;
 	string line;

@@ -13,7 +13,7 @@ def combinar(lr):
     a.set_xlabel("Iteraciones")   
     #a.set_ylim([0,0.2])
     #a.set_xlim([0,20])
-    a.set_title("Curvas de Convergencia para Datos sobre precios de casa con tasa de aprendizaje 0.1.",fontsize = 10, y = 1.05)
+    a.set_title("Curvas de Convergencia para Datos sobre Precios de Casas con Tasa de Aprendizaje = 0.1.",fontsize = 10, y = 1.05)
     plt.tight_layout()
     plt.legend()
     plt.savefig("todos2.png")

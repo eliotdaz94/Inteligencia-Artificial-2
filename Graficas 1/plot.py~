@@ -34,7 +34,7 @@ tabla = generar_df(leer_input("x01.txt"))
 tabla = normalizar(tabla)
 tabla.plot.scatter(0,1)
 t = plt.gca()
-t.set_title("Peso Corporal en función del Peso del Cerebro")
+t.set_title("Curva Ajustada a Datos sobre Peso.")
 
 pesos = [8.46415e-006,0.934081]
 pf = [-0.4,7]

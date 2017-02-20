@@ -6,6 +6,16 @@
 #include <math.h> 
 using namespace std;
 
+
+/*
+	Evalua las instancias en X en la hipotesis presentada en thetas.
+	n_examples = numero de instancias a evaluar
+	n_features = numero de atributos de las instancias
+	x = matriz con las instancias
+	thetas = pesos de la hipotesis de regresion lineal
+	eval = resultado de cada evaluacion
+*/
+
 void evaluar_hip(int n_examples, int n_features, double** x, double thetas[],
 				 double eval[]) {
 	double result;
@@ -18,6 +28,11 @@ void evaluar_hip(int n_examples, int n_features, double** x, double thetas[],
 	}
 }
 
+/*
+	Separa un string en base a un delimitador y devuelve un vector con cada palabra por separado.
+	str = string a separar
+	delimiter = delimitador
+*/
 vector<string> split(string str, string delimiter) {
 	vector<string> str_splitted;
 	size_t pos = 0;
