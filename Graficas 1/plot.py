@@ -7,8 +7,8 @@ def plotear(lr):
     c01 = pandas.read_table("x01_costo{}.txt".format(lr),header = 0 , delimiter = " ")
     f = c01.plot("Iteracion", "FuncionCosto", legend = False)
     f.set_title("{} {}".format(string,lr), fontsize=10)
-    f.set_ylabel("Iteracion")
-    f.set_xlabel("Funcion Costo")
+    f.set_xlabel("Iteraciones")
+    f.set_ylabel("Funcion de Costo")
     plt.tight_layout()
     plt.savefig("{}.png".format(lr))
 
