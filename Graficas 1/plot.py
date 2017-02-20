@@ -8,7 +8,7 @@ def plotear(lr):
     f = c01.plot("Iteracion", "FuncionCosto", legend = False)
     f.set_title("{} {}".format(string,lr), fontsize=10)
     f.set_xlabel("Iteraciones")
-    f.set_ylabel("Funcion de Costo")
+    f.set_ylabel("Función de Costo")
     plt.tight_layout()
     plt.savefig("{}.png".format(lr))
 
